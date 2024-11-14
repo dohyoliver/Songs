@@ -5,9 +5,9 @@ import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class SongsService {
-db:PrismaService;
-constructor(db:PrismaService){
-  this.db=db;
+
+  constructor(public db:PrismaService){
+  
 }
   create(createSongDto: CreateSongDto) {
     return this.db.song.create({
@@ -21,15 +21,20 @@ constructor(db:PrismaService){
 
   findOne(id: number) {
     return this.db.song.findUnique({
-      where:{id:id}
+      where:{ id } 
     });
   }
 
   update(id: number, updateSongDto: UpdateSongDto) {
-    return `This action updates a #${id} song`;
+    return this.db.song.update({
+      where: { id },
+      data: updateSongDto,
+    });;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} song`;
+    return this.db.song.delete({
+      where: { id },
+    });
   }
 }
